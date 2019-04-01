@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas</title>
+</head>
+	<style>
+		body {
+			background-color: #e2e2e2; 
+			margin: 0;
+			padding: 0;
+		}
+
+		#canvas {
+			width: 80vw;
+			height: 80vh;
+			background-color: white;
+			display: block;
+			margin: auto;
+			margin-top: 5vh;
+		}
+	</style>
+<body>
+
+	<canvas id="canvas">
+	</canvas>
+	<p id="demo"></p>
+	<p id="ddemo"></p>
+
+	<script>
+
+		//Function to get the mouse position
+function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX,
+        y: event.clientY
+    };
+}
+
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+
+//Binding the click event on the canvas
+canvas.addEventListener('click', function(evt) {
+    var mousePos = getMousePos(canvas, event);
+
+    context.moveTo(0, 0);
+context.lineTo(mousePos.x, mousePos.y);
+context.stroke(); 
+}, false);
+	</script>
+
+</body>
+</html>

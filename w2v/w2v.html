@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>w2v</title>
+</head>
+<style type="text/css">
+	#wcoord{
+		float: left;
+	}
+</style>
+<body>
+
+	<div id="wcoord">
+		<label>Xmax = 
+		<input type="number" name="xmax" id="xmax">
+		</label>
+		<br>
+		<label>Xmin = 
+		<input type="number" name="xmin" id="xmin">
+		</label>
+		<br>
+		<label>Ymax = 
+		<input type="number" name="ymax" id="ymax">
+		</label>
+		<br>
+		<label>Ymin = 
+		<input type="number" name="ymin" id="ymin">
+		</label>
+	</div>
+
+	<div id="vcoord">
+		<label>Umax = 
+		<input type="number" name="umax" id="umax">
+		</label>
+		<br>
+		<label>Umin = 
+		<input type="number" name="umin" id="umin">
+		</label>
+		<br>
+		<label>Vmax = 
+		<input type="number" name="vmax" id="vmax">
+		</label>
+		<br>
+		<label>Vmin = 
+		<input type="number" name="vmin" id="vmin">
+		</label>
+	</div>
+
+	<div>
+		<br>
+		<label>
+			Ponto x = 
+			<input type="number" name="x" id="x">
+		</label>
+		<label>
+			Ponto y = 
+			<input type="number" name="y" id="y">
+		</label>
+	</div>
+
+	<p id="result1"></p>
+	<p id="result2"></p>
+	<p id="result3"></p>
+	<p id="result"></p>
+
+	<input type="button" name="calcular" value="calcular" onclick="transform()">
+
+	<script type="text/javascript">
+		
+
+		function transform(){
+			var xmax = document.getElementById("xmax").value;
+			var xmin = document.getElementById("xmin").value;
+			var ymax = document.getElementById("ymax").value;
+			var ymin = document.getElementById("ymin").value;
+
+			var umax = document.getElementById("umax").value;
+			var umin = document.getElementById("umin").value;
+			var vmax = document.getElementById("vmax").value;
+			var vmin = document.getElementById("vmin").value;
+
+			var x = document.getElementById("x").value;
+			var y = document.getElementById("y").value;
+
+			var m11 = (umax - umin)/(xmax - xmin);
+			var m22 = (vmax - vmin)/(ymax - ymin);
+			var m13 = (xmin*(-1))*(m11)+umin;
+			var m23 = (ymin*(-1))*(m22)+vmin;
+
+			var u = m11*x+m13;
+			var v = m22*y+m23;
+
+			var coords = "u coords = " + u + ", v coords = " + v;
+
+			if(u <= 0 || v <= 0)
+			{
+				coords = "menor que 0"
+			}
+
+			document.getElementById("result").innerHTML = coords;
+		}
+
+	</script>
+
+</body>
+</html>
