@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html>
 <head>
 	<title>w2v</title>
@@ -82,20 +82,10 @@
 			var x = document.getElementById("x").value;
 			var y = document.getElementById("y").value;
 
-			var m11 = (umax - umin)/(xmax - xmin);
-			var m22 = (vmax - vmin)/(ymax - ymin);
-			var m13 = (xmin*(-1))*(m11)+umin;
-			var m23 = (ymin*(-1))*(m22)+vmin;
+			var u = ((x - xmin) * ((umax - umin)/(xmax - xmin))) + umin;
+			var v = ((y - ymin) * ((vmax - vmin)/(ymax - ymin))) + vmin;
 
-			var u = m11*x+m13;
-			var v = m22*y+m23;
-
-			var coords = "u coords = " + u + ", v coords = " + v;
-
-			if(u <= 0 || v <= 0)
-			{
-				coords = "menor que 0"
-			}
+			var coords =  u;
 
 			document.getElementById("result").innerHTML = coords;
 		}
