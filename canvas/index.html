@@ -1,34 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Canvas</title>
+	<link rel="stylesheet" type="text/css" href="../canvas/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../canvas/style.css">
 </head>
-	<style>
-		body {
-			background-color: #e2e2e2;
-		}
-
-		#canvas {
-			background-color: white;
-		}
-	</style>
 <body>
 
-	<canvas id="canvas" width="600" height="600">
-	</canvas>
-	<p id="demo"></p>
-	<p id="ddemo"></p>
-	<nav>
-		<input type="button" name="ponto" value="ponto" onclick="ponto()">
-		<input type="button" name="linha" value="linha" onclick="linha()">
-		<input type="button" name="poligono" value="poligono" onclick="poligono()">
-		<input type="button" name="circulo" value="circulo" onclick="circulo()">
-		<input type="button" name="bezier" value="bezier" onclick="bezier()">
-		<input type="button" name="limpar" value="limpar" onclick="limpar()">
-	</nav>
+	<div id="stage">
+		<canvas id="canvas">
+		</canvas>
+	
+		<nav id="menu">
+			<input type="radio" id="ponto" class="hidden radio-label" name="radio" onclick="ponto()" checked="checked">
+			<label for="ponto" class="button-label">
+				<h1>PONTO</h1>
+			</label>
+			<input type="radio" id="linha" class="hidden radio-label" name="radio" onclick="linha()">
+			<label for="linha" class="button-label">
+				<h1>LINHA</h1>
+			</label>
+			<input type="radio" id="poligono" class="hidden radio-label" name="radio" onclick="poligono()">
+			<label for="poligono" class="button-label">
+				<h1>POLIGONO</h1>
+			</label>
+			<input type="radio" id="circulo" class="hidden radio-label" name="radio" onclick="circulo()">
+			<label for="circulo" class="button-label">
+				<h1>CIRCULO</h1>
+			</label>
+			<input type="radio" id="bezier" class="hidden radio-label" name="radio" onclick="bezier()">
+			<label for="bezier" class="button-label">
+				<h1>BEZIER</h1>
+			</label>
+			<input type="radio" id="limpar" class="hidden radio-label" name="radio" onclick="limpar()">
+			<label for="limpar" class="button-label">
+				<h1>LIMPAR</h1>
+			</label>
+		</nav>
+	</div>
+
 
 	<script src="draw.js">
 	</script>
+
 
 </body>
 </html>

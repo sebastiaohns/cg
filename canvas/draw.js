@@ -5,6 +5,9 @@ var ctx = c.getContext("2d");
 var bool = true;
 var option = 0;
 
+c.width = (window.innerWidth/100) * 85;
+c.height = (window.innerHeight/100) * 80;
+
 /*
 	Funções para desenhar ponto ponto
 */
@@ -163,26 +166,26 @@ function limpar()
 function eventClick(e)
 {
 	console.log(e);
-	var correcao = e.clientX - e.offsetX;
+	var correcao = 0; // e.clientX - e.offsetX;
 
 	if(option == 0)
 	{
-		drawPonto(e.clientX - correcao, e.clientY - correcao);
+		drawPonto(e.offsetX - correcao, e.offsetY - correcao);
 	}
 	if(option == 1)
 	{
-		drawLinha(e.clientX - correcao, e.clientY - correcao);
+		drawLinha(e.offsetX - correcao, e.offsetY - correcao);
 	}
 	if(option == 2)
 	{
-		drawPoligono(e.clientX - correcao, e.clientY - correcao, e.ctrlKey);
+		drawPoligono(e.offsetX - correcao, e.offsetY - correcao, e.ctrlKey);
 	}
 	if(option == 3)
 	{
-		drawCirculo(e.clientX - correcao, e.clientY - correcao);
+		drawCirculo(e.offsetX - correcao, e.offsetY - correcao);
 	}
 	if(option == 4)
 	{
-		drawBezier(e.clientX - correcao, e.clientY - correcao);
+		drawBezier(e.offsetX - correcao, e.offsetY - correcao);
 	}	
 }
