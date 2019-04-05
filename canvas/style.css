@@ -1,14 +1,15 @@
 
 body {
-	background-color: #919191;
+	background-color: #b5eece;
 }
 
 #canvas {
-	background-color: #fff; 
+	background-color: #fff;
+	box-shadow: 0px -1px 10px 10px rgba(0,0,0,0.1);
 }
 
 #stage {
-	width: 80%;
+	width: 90%;
 	height: 100%;
 	margin: auto;
 	margin-top: 1%;
@@ -26,7 +27,7 @@ body {
 	color: #292929;
 	border-radius: 0.25em;
 	background: #efefef;
-	box-shadoww: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
 	transition: 0.3s;
 	user-select: none;
 }
@@ -37,8 +38,8 @@ body {
 }
 
 .button-label:hover {
-	background: #d6d6d6;
-	color: #101010;
+	background: #2ecc71;
+	color: #efefef;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
 }
 
@@ -63,6 +64,17 @@ body {
 	background: #29b765;
 	color: #e2e2e2;
 }
+
+.btnlimpar:hover, .btnlimpar:active {
+	background: #d2331b;
+	color: #efefef;
+}
+
+#limpar:checked + .btnlimpar {
+	color: #292929;
+	background: #efefef;
+}
+
 
 .hidden {
 display: none;

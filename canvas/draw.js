@@ -5,7 +5,7 @@ var ctx = c.getContext("2d");
 var bool = true;
 var option = 0;
 
-c.width = (window.innerWidth/100) * 85;
+c.width = (window.innerWidth/100) * 90;
 c.height = (window.innerHeight/100) * 80;
 
 /*
@@ -161,6 +161,7 @@ function drawBezier(x, y)
 function limpar()
 {
 	ctx.clearRect(0, 0, c.width, c.height);
+	document.getElementById("ponto").checked = true;
 }
 
 function eventClick(e)
