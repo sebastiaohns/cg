@@ -4,37 +4,65 @@ var ctx = c.getContext("2d");
 
 var bool = true;
 var option = 0;
+var prevx = 0;
+var prevy = 0;
+var beginx = 0;
+var beginy = 0;
 
 c.width = (window.innerWidth/100) * 90;
 c.height = (window.innerHeight/100) * 80;
 
-/*
-	Funções para desenhar ponto ponto
-*/
+function ponto() { option = 0; }
+function linha() { option = 1; }
+function poligono() { option = 2; }
+function circulo() { option = 3; }
+function bezier() { option = 4; }
 
-function ponto()
+function eventClick(e)
 {
-	option = 0;
+	switch(option)
+	{
+		case 0:
+			if(!pick(e.offsetX, e.offsetY))
+			{
+				drawPonto(e.offsetX, e.offsetY, "black");
+			}
+			break;
+		case 1:
+			if(!pickLine(e.offsetX, e.offsetY, 5));
+			{
+				drawLinha(e.offsetX, e.offsetY, "black");
+			}
+			break;
+		case 2:
+			drawPoligono(e.offsetX, e.offsetY, e.ctrlKey);
+			break;
+		case 3:
+			drawCirculo(e.offsetX, e.offsetY);
+			break;
+		case 4:
+			drawBezier(e.offsetX, e.offsetY);
+			break;
+		default:
+			break;
+	}
 }
 
-function drawPonto(x, y)
+function drawPonto(x, y, color)
 {
+	ctx.fillStyle = color;
 	ctx.fillRect(x,y,2,2);
+	addPoint(x, y);
 }
 
-/*
-	Funções para desenhar linha
-*/
-
-function linha()
-{
-	option = 1;
-}
-
-function drawLinha(x, y)
+function drawLinha(x, y, color)
 {
 	if(bool == true)
 	{
+		beginx = x;
+		beginy = y;
+		ctx.beginPath();
+		ctx.strokeStyle = color;
 		ctx.moveTo(x, y);
 		bool = false;
 	}
@@ -42,37 +70,30 @@ function drawLinha(x, y)
 	{
 		ctx.lineTo(x, y);
 		ctx.stroke();
+		ctx.closePath();
+		addLine(beginx, beginy, x, y);
 		bool = true;
 	}
 }
 
-/*
-	Funções para desenhar poligono
-*/
-
-function poligono()
-{
-	option = 2;
-	ctx.beginPath();
-}
-
-var prevx = 0;
-var prevy = 0;
-
 function drawPoligono(x, y, button)
 {
+	
 	if(prevx == 0 && prevy == 0)
 	{
 		prevx = x;
 		prevy = y;
+		ctx.beginPath();
 		ctx.moveTo(x, y);
-		drawPonto(x, y);
+		beginx = x;
+		beginy = y;
 	}
 
 	if(button == true)
 	{
+		ctx.lineTo(beginx, beginy);
+		ctx.stroke();
 		ctx.closePath();
-		ctx.fill();
 		prevx = 0;
 		prevy = 0;
 
@@ -81,16 +102,6 @@ function drawPoligono(x, y, button)
 
 	ctx.lineTo(x, y);
 	ctx.stroke();
-}
-
-/*
-	Funções para desenhar circulo
-*/
-
-function circulo()
-{
-	option = 3;
-	
 }
 
 function drawCirculo(x, y)
@@ -105,13 +116,13 @@ function drawCirculo(x, y)
 	else
 	{
 		var raio = 0;
-		if(prevx >= x)
+		if(Math.abs(prevx - x) >= Math.abs(prevy - y))
 		{
-			raio = prevx - x;
+			raio = Math.abs(prevx - x);
 		}
 		else
 		{
-			raio = x - prevx;
+			raio = Math.abs(prevy - y);
 		}
 
 		ctx.arc(prevx, prevy, raio, 0, 2 * Math.PI);
@@ -119,16 +130,6 @@ function drawCirculo(x, y)
 		ctx.closePath();
 		bool = true;
 	}
-}
-
-/*
-	Funções para desenhar curva de bezier
-*/
-
-function bezier()
-{
-	option = 4;
-	
 }
 
 function drawBezier(x, y)
@@ -162,31 +163,4 @@ function limpar()
 {
 	ctx.clearRect(0, 0, c.width, c.height);
 	document.getElementById("ponto").checked = true;
-}
-
-function eventClick(e)
-{
-	console.log(e);
-	var correcao = 0; // e.clientX - e.offsetX;
-
-	if(option == 0)
-	{
-		drawPonto(e.offsetX - correcao, e.offsetY - correcao);
-	}
-	if(option == 1)
-	{
-		drawLinha(e.offsetX - correcao, e.offsetY - correcao);
-	}
-	if(option == 2)
-	{
-		drawPoligono(e.offsetX - correcao, e.offsetY - correcao, e.ctrlKey);
-	}
-	if(option == 3)
-	{
-		drawCirculo(e.offsetX - correcao, e.offsetY - correcao);
-	}
-	if(option == 4)
-	{
-		drawBezier(e.offsetX - correcao, e.offsetY - correcao);
-	}	
 }
