@@ -17,22 +17,17 @@ function linha() { option = 1; }
 function poligono() { option = 2; }
 function circulo() { option = 3; }
 function bezier() { option = 4; }
+function selecionar() { option = 5; }
 
 function eventClick(e)
 {
 	switch(option)
 	{
 		case 0:
-			if(!pick(e.offsetX, e.offsetY))
-			{
-				drawPonto(e.offsetX, e.offsetY, "black");
-			}
+			drawPonto(e.offsetX, e.offsetY, "black");
 			break;
 		case 1:
-			if(!pickLine(e.offsetX, e.offsetY, 5));
-			{
-				drawLinha(e.offsetX, e.offsetY, "black");
-			}
+			drawLinha(e.offsetX, e.offsetY, "black");
 			break;
 		case 2:
 			drawPoligono(e.offsetX, e.offsetY, e.ctrlKey);
@@ -42,6 +37,11 @@ function eventClick(e)
 			break;
 		case 4:
 			drawBezier(e.offsetX, e.offsetY);
+			break;
+		case 5:
+			pick(e.offsetX, e.offsetY)
+			pickLine(e.offsetX, e.offsetY, 5)
+			pickArea(e.offsetX, e.offsetY);
 			break;
 		default:
 			break;
@@ -96,12 +96,15 @@ function drawPoligono(x, y, button)
 		ctx.closePath();
 		prevx = 0;
 		prevy = 0;
-
+		addLine(prevx, prevy, x, y);
 		return 0;
 	}
 
 	ctx.lineTo(x, y);
 	ctx.stroke();
+	addLine(prevx, prevy, x, y);
+	prevx = x;
+	prevy = y;
 }
 
 function drawCirculo(x, y)
