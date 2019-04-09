@@ -1,6 +1,7 @@
-document.getElementById("canvas").addEventListener("click", eventClick, true);
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
+
+c.addEventListener("click", eventClick, true);
 
 var bool = true;
 var option = 0;
