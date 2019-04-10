@@ -1,41 +1,4 @@
-var pointList = [];
 
-function addPoint(x, y)
-{
-	var obj = {type: "ponto", x:0, y:0};
-	obj.x = x;
-	obj.y = y;
-	pointList.push(obj);
-}
-
-function pick(mx, my)
-{
-	var len = pointList.length;
-	for(var i = 0; i < len; i++)
-	{
-		var obj = pointList[i];
-		if(obj.type == "ponto")
-		{
-			if(pickPoint(obj.x, obj.y, mx, my, 3))
-			{
-				drawPonto(obj.x, obj.y, "red");
-				return true;
-			}
-		}
-	}
-}
-
-function pickPoint(px, py, mx, my, t)
-{
-	if(px < mx + t && px > mx - t)
-	{
-		if(py < my + t && py > my - t)
-		{
-			return true;
-		}
-	}
-	return false;
-}
 
 var lineList = [];
 

@@ -1,5 +1,6 @@
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
+var linectx = c.getContext("2d");
 
 c.addEventListener("click", eventClick, true);
 
@@ -7,8 +8,8 @@ var bool = true;
 var option = 0;
 var prevx = 0;
 var prevy = 0;
-var beginx = 0;
-var beginy = 0;
+var beginx;
+var beginy;
 
 c.width = (window.innerWidth/100) * 90;
 c.height = (window.innerHeight/100) * 80;
@@ -25,7 +26,7 @@ function eventClick(e)
 	switch(option)
 	{
 		case 0:
-			drawPonto(e.offsetX, e.offsetY, "black");
+			addPoint(e.offsetX, e.offsetY, "black");
 			break;
 		case 1:
 			drawLinha(e.offsetX, e.offsetY, "black");
@@ -49,31 +50,37 @@ function eventClick(e)
 	}
 }
 
-function drawPonto(x, y, color)
-{
-	ctx.fillStyle = color;
-	ctx.fillRect(x,y,2,2);
-	addPoint(x, y);
-}
-
 function drawLinha(x, y, color)
 {
-	if(bool == true)
-	{
-		beginx = x;
-		beginy = y;
-		ctx.beginPath();
-		ctx.strokeStyle = color;
-		ctx.moveTo(x, y);
-		bool = false;
-	}
-	else
-	{
-		ctx.lineTo(x, y);
-		ctx.stroke();
-		ctx.closePath();
-		addLine(beginx, beginy, x, y);
+	ctx.strokeStyle = color;
+
+	onmousedown = function (event) {
+		beginx = event.offsetX;
+		beginy = event.offsetY;
 		bool = true;
+	}
+
+	onmousemove = function(event) {
+		if(bool)
+		{
+			endx = event.offsetX;
+			endy = event.offsetY;
+			ctx.clearRect( 0, 0, canvas.width, canvas.height );
+			ctx.beginPath();
+			ctx.moveTo(beginx, beginy);
+			ctx.lineTo(endx, endy);
+			ctx.stroke();
+			ctx.closePath();
+			drawAllLine(lineList);
+			drawPonto();
+		}				
+	}
+
+	onmouseup = function(event)
+	{
+
+		addLine(beginx, beginy, endx, endy);
+		bool = false;
 	}
 }
 
@@ -167,4 +174,18 @@ function limpar()
 {
 	ctx.clearRect(0, 0, c.width, c.height);
 	document.getElementById("ponto").checked = true;
+}
+
+function drawAllLine(lineList)
+{
+	for(var i = 0; i < lineList.length; i++)
+	{
+		var line = lineList[i];
+		ctx.beginPath();
+		ctx.moveTo(line.x0, line.y0);
+		ctx.lineTo(line.x1, line.y1);
+		ctx.stroke();
+		ctx.closePath();
+	}
+
 }
