@@ -39,6 +39,7 @@ function mouseMove(e)
 	drawAllLines();
 	drawAllPoints();
 	drawAllPoly();
+	drawAllCircles();
 }
 
 function mouseUp(e)

@@ -17,12 +17,12 @@ var endx, endy;
 c.width = (window.innerWidth/100) * 90;
 c.height = (window.innerHeight/100) * 80;
 
-function ponto() { option = 0; removeLineListeners(); removePolyListeners(); }
-function linha() { option = 1; removePolyListeners();}
-function poligono() { option = 2; removeLineListeners(); }
-function circulo() { option = 3; }
-function bezier() { option = 4; }
-function selecionar() { option = 5; removeLineListeners(); removePolyListeners();}
+function ponto() { option = 0; removeLineListeners(); removePolyListeners(); removeCircleListeners(); }
+function linha() { option = 1; removePolyListeners(); removeCircleListeners(); }
+function poligono() { option = 2; removeLineListeners(); removeCircleListeners(); }
+function circulo() { option = 3; removeLineListeners(); removePolyListeners(); }
+function bezier() { option = 4; removeLineListeners(); removePolyListeners(); removeCircleListeners(); }
+function selecionar() { option = 5; removeLineListeners(); removePolyListeners(); removeCircleListeners(); }
 
 function eventClick(e)
 {
@@ -38,7 +38,7 @@ function eventClick(e)
 			drawPoly();
 			break;
 		case 3:
-			drawCirculo(e.offsetX, e.offsetY);
+			drawCirculo();
 			break;
 		case 4:
 			drawBezier(e.offsetX, e.offsetY);
@@ -50,34 +50,6 @@ function eventClick(e)
 			break;
 		default:
 			break;
-	}
-}
-
-function drawCirculo(x, y)
-{
-	if(bool == true)
-	{
-		prevx = x;
-		prevy = y;
-		ctx.beginPath();
-		bool = false;
-	}
-	else
-	{
-		var raio = 0;
-		if(Math.abs(prevx - x) >= Math.abs(prevy - y))
-		{
-			raio = Math.abs(prevx - x);
-		}
-		else
-		{
-			raio = Math.abs(prevy - y);
-		}
-
-		ctx.arc(prevx, prevy, raio, 0, 2 * Math.PI);
-		ctx.stroke();
-		ctx.closePath();
-		bool = true;
 	}
 }
 
@@ -115,5 +87,6 @@ function limpar()
 	deletePoint();
 	deleteLine();
 	deletePoly();
+	deleteCircle();
 	option = 0;
 }
