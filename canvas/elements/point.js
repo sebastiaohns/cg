@@ -7,10 +7,16 @@ function addPoint(x, y, color)
 	obj.y = y;
 	obj.color = color;
 	pointList.push(obj);
-	drawPonto(x, y, color);
 }
 
-function drawPonto()
+function drawPoint(x, y, color)
+{
+	ctx.fillStyle = color;
+	ctx.fillRect(x, y ,2,2);
+	addPoint(x, y, color);	
+}
+
+function drawAllPoints()
 {
 	for(var i = 0; i < pointList.length; i++)
 	{
@@ -20,28 +26,29 @@ function drawPonto()
 	}
 }
 
-function pick(mx, my)
+function deletePoint()
 {
-	var len = pointList.length;
-	for(var i = 0; i < len; i++)
+	pointList.splice(0, pointList.length);
+}
+
+function pick(x, y)
+{
+	for(var i = 0; i < pointList.length; i++)
 	{
 		var obj = pointList[i];
-		if(obj.type == "ponto")
+		if(pickPoint(obj.x, obj.y, x, y, 3))
 		{
-			if(pickPoint(obj.x, obj.y, mx, my, 3))
-			{
-				drawPonto(obj.x, obj.y, "red");
-				return true;
-			}
+			drawPoint(obj.x, obj.y, "red");
+			return true;
 		}
 	}
 }
 
-function pickPoint(px, py, mx, my, t)
+function pickPoint(px, py, x, y, t)
 {
-	if(px < mx + t && px > mx - t)
+	if(px < x + t && px > x - t)
 	{
-		if(py < my + t && py > my - t)
+		if(py < y + t && py > y - t)
 		{
 			return true;
 		}
