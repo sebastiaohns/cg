@@ -2,7 +2,7 @@ var polyList = [];
 var number = 0;
 var check = 0;
 var save = false;
-var firstx, firsty;
+var firstx, firsty, first = true;
 
 function addPoly(x0, y0, x1, y1, color, number)
 {
@@ -20,60 +20,66 @@ function drawPoly()
 {
 	c.addEventListener("mousedown", mouseDownPoly, true);
 	c.addEventListener("mousemove", mouseMovePoly, true);
-	c.addEventListener("dblclick", closePoly, true);
+	c.addEventListener("click", closePoly, true);
 }
 
 function mouseDownPoly(e)
 {
-	if(save)
+	if(first)
+	{
+		firstx = e.offsetX;
+		firsty = e.offsetY;
+		initx = firstx;
+		inity = firsty;
+		first = false;
+	}
+
+	if(save == true && initx != endx)
 	{
 		addPoly(initx, inity, endx, endy, "black", number);
 		initx = endx;
 		inity = endy;
 	}
-	
-	if(check == number)
-	{
-		firstx = e.offsetX;
-		initx = e.offsetX;
-		firsty = e.offsetY;
-		inity = e.offsetY;
-		check++;
-	}
 }
 
 function mouseMovePoly(e)
 {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	ctx.beginPath();
-	ctx.strokeStyle = "black";
-	ctx.moveTo(initx, inity);
 	endx = e.offsetX;
 	endy = e.offsetY;
+
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.beginPath();
+	ctx.moveTo(initx, inity);
 	ctx.lineTo(endx, endy);
 	ctx.stroke();
 	ctx.closePath();
+
 	drawAllLines();
 	drawAllPoints();
 	drawAllPoly();
-	drawAllCircles();
+
 	save = true;
 }
 
 function closePoly(e)
 {
-	ctx.beginPath();
-	ctx.strokeStyle = "black";
-	ctx.moveTo(firstx, firsty);
-	ctx.lineTo(e.offsetX, e.offsetY);
-	ctx.stroke();
-	ctx.closePath();
-	addPoly(firstx, firsty, e.offsetX, e.offsetY, "black", number);	
-	number++;
-	firstx = undefined;
-	firsty = undefined;
-	initx = undefined;
-	inity = undefined;
+	if(e.ctrlKey)
+	{
+		ctx.beginPath();
+		ctx.moveTo(firstx, firsty);
+		ctx.lineTo(e.offsetX, e.offsetY);
+		ctx.stroke();
+		ctx.closePath();
+
+		addPoly(e.offsetX, e.offsetY, firstx, firsty, "black", number);	
+
+		number++;
+		firstx = undefined;
+		firsty = undefined;
+		initx = undefined;
+		inity = undefined;
+		first = true;
+	}
 }
 
 function drawAllPoly()
@@ -93,6 +99,13 @@ function drawAllPoly()
 function deletePoly()
 {
 	polyList.splice(0, polyList.length);
+}
+
+function removePolyListeners()
+{
+	c.removeEventListener("mousedown", mouseDownPoly, true);
+	c.removeEventListener("mousemove", mouseMovePoly, true);
+	c.removeEventListener("click", closePoly, true);
 }
 
 function pickArea(mx, my)
@@ -154,9 +167,35 @@ function pickArea(mx, my)
     }
 } 
 
-function removePolyListeners()
+function polyArea()
 {
-	c.removeEventListener("mousedown", mouseDownPoly, true);
-	c.removeEventListener("mousemove", mouseMovePoly, true);
-	c.removeEventListener("dblclick", closePoly, true);
+	var esq = 0, dir = 0;
+	var area = 0, areas = [];
+
+	for (var i = 0; i < polyList.length-1; i++) {
+
+		esq += Math.abs(polyList[i].x0 * polyList[i+1].y0);
+		dir += Math.abs(polyList[i].y0 * polyList[i+1].x0);
+		// console.log("X0 = " + polyList[i].x0 + " Y1 = " + polyList[i+1].y0 + " R = " + esq);
+		// console.log("Y0 = " + polyList[i].y0 + " X1 = " + polyList[i+1].x0 + " R = " + dir);
+
+		if(polyList[i].number != polyList[i+1].number || i == polyList.length - 2)
+		{
+			esq += Math.abs(polyList[i+1].x0 * polyList[i+1].y1);
+			dir += Math.abs(polyList[i+1].y0 * polyList[i+1].x1);7
+			// console.log("X0 = " + polyList[i+1].x0 + " FIRST Y = " + polyList[i+1].y1 + " R = " + esq);
+			// console.log("Y0 = " + polyList[i+1].y0 + " FIRST Y = " + polyList[i+1].x1 + " R = " + dir);
+			area = Math.abs((esq - dir)/2);
+			var obj = {area:0, number: 0};
+			obj.area = area;
+			obj.number = polyList[i].number;
+			areas.push(obj);
+			area = 0;
+		}
+	}
+
+	for (var i = 0; i < areas.length; i++) {
+		console.log("O poligono " + areas[i].number + " tem área de " + areas[i].area);
+	}
+
 }
