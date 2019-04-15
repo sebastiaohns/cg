@@ -13,7 +13,8 @@ function drawPoint(x, y, color)
 {
 	ctx.fillStyle = color;
 	ctx.fillRect(x, y ,2,2);
-	addPoint(x, y, color);	
+	addPoint(x, y, color);
+	return true;	
 }
 
 function drawAllPoints()
