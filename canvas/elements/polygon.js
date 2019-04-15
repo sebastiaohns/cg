@@ -1,4 +1,5 @@
 var polyList = [];
+var areas = [], areaCoord = [];
 var number = 0;
 var check = 0;
 var save = false;
@@ -57,6 +58,8 @@ function mouseMovePoly(e)
 	drawAllLines();
 	drawAllPoints();
 	drawAllPoly();
+	drawAllBezier();
+	drawAllCircles();
 
 	save = true;
 }
@@ -170,7 +173,7 @@ function pickArea(mx, my)
 function polyArea()
 {
 	var esq = 0, dir = 0;
-	var area = 0, areas = [];
+	var area = 0;
 
 	for (var i = 0; i < polyList.length-1; i++) {
 
@@ -182,7 +185,7 @@ function polyArea()
 		if(polyList[i].number != polyList[i+1].number || i == polyList.length - 2)
 		{
 			esq += Math.abs(polyList[i+1].x0 * polyList[i+1].y1);
-			dir += Math.abs(polyList[i+1].y0 * polyList[i+1].x1);7
+			dir += Math.abs(polyList[i+1].y0 * polyList[i+1].x1);
 			// console.log("X0 = " + polyList[i+1].x0 + " FIRST Y = " + polyList[i+1].y1 + " R = " + esq);
 			// console.log("Y0 = " + polyList[i+1].y0 + " FIRST Y = " + polyList[i+1].x1 + " R = " + dir);
 			area = Math.abs((esq - dir)/2);
@@ -191,11 +194,38 @@ function polyArea()
 			obj.number = polyList[i].number;
 			areas.push(obj);
 			area = 0;
+			esq = 0;
+			dir = 0;
 		}
 	}
 
+	centroid();
+
 	for (var i = 0; i < areas.length; i++) {
+		console.log(i);
 		console.log("O poligono " + areas[i].number + " tem área de " + areas[i].area);
 	}
+}
 
+function centroid()
+{
+	var x=0, y=0, number = 0, count=0;
+	for (var i = 0; i < polyList.length; i++)
+	{
+		x += polyList[i].x0;
+		y += polyList[i].y0;
+
+		count++;
+
+		if(number < polyList[i].number || i == polyList.length - 1)
+		{
+			ctx.font = "10px Arial";
+			ctx.fillText(number+1, (x/count), y/count);
+
+			number = polyList[i].number;
+			x = 0;
+			y = 0;
+			count = 0;
+		}
+	}
 }

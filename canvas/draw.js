@@ -23,6 +23,7 @@ function poligono() { option = 2; removeLineListeners(); removeCircleListeners()
 function circulo() { option = 3; removeLineListeners(); removePolyListeners(); }
 function bezier() { option = 4; removeLineListeners(); removePolyListeners(); removeCircleListeners(); }
 function selecionar() { option = 5; removeLineListeners(); removePolyListeners(); removeCircleListeners(); }
+function area() { removeLineListeners(); removePolyListeners(); removeCircleListeners(); polyArea(); angleLine(); }
 
 function eventClick(e)
 {
@@ -50,33 +51,6 @@ function eventClick(e)
 			break;
 		default:
 			break;
-	}
-}
-
-function drawBezier(x, y)
-{
-	if(bool == true)
-	{
-		ctx.beginPath();
-		ctx.moveTo(x, y);
-		bool = false;
-		prevx = 0;
-		prevy = 0;
-	}
-	else
-	{
-		if(prevx == 0 && prevy == 0)
-		{
-			prevx = x;
-			prevy = y;
-		}
-		else
-		{
-			ctx.quadraticCurveTo(prevx, prevy, x, y);
-			ctx.stroke();
-			ctx.closePath();
-			bool = true;
-		}
 	}
 }
 

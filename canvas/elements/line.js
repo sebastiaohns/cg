@@ -40,6 +40,7 @@ function mouseMove(e)
 	drawAllPoints();
 	drawAllPoly();
 	drawAllCircles();
+	drawAllBezier();
 }
 
 function mouseUp(e)
@@ -156,4 +157,17 @@ function removeLineListeners()
 	c.removeEventListener("mousedown", mouseDown, true);
 	c.removeEventListener("mousemove", mouseMove, true);
 	c.removeEventListener("mouseup", mouseUp, true);
+}
+
+function angleLine()
+{
+	if(lineList.length <= 1)
+	{
+		return false;
+	}
+
+	for (var i = 0; i < lineList.length - 1; i++) {
+		console.log("Y2 = " + lineList[i+1].y1 + " Y1 = " + lineList[i].y1 + " \nX2 = " + lineList[i+1].x1 + " X0 = " + lineList[i].x1);
+		console.log(Math.atan2(lineList[i+1].y1 - lineList[i].y1, lineList[i+1].x1 - lineList[i].x1)*180/Math.PI);
+	}
 }
