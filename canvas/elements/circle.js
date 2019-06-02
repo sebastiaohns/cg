@@ -50,7 +50,6 @@ function mouseMoveCircle(e)
 		drawAllPoints();
 		drawAllPoly();
 		drawAllCircles();
-		drawAllBezier();
 	}
 }
 
