@@ -53,7 +53,7 @@ add_definitions(
 
 # Tutorial 4
 add_executable(cube
-	cube/tutorial04.cpp
+	cube/cubeview.cpp
 	common/shader.cpp
 	common/shader.hpp
 	
